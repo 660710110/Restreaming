@@ -1,14 +1,45 @@
 import React, { useState } from 'react'; // 📍 1. เพิ่ม useState
-import { LogIn, TrendingUp, LineChart, Eye, BarChart2, FileText, Info, Bell, User } from 'lucide-react';
+import { 
+  LogIn, TrendingUp, LineChart, Eye, BarChart2, FileText, Info, Bell, User,
+  ChevronLeft, ChevronRight // 🟢 [เพิ่ม] นำเข้าไอคอนลูกศร ซ้าย-ขวา สำหรับใช้ทำปุ่มเปิด-ปิด Sidebar
+} from 'lucide-react';
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState('mostActive');
+  
+  // 🟢 [เพิ่ม] State สำหรับควบคุมการเปิด-ปิด Sidebar (true = เปิดกว้างปกติ, false = ปิด/ซ่อนแถบ)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <aside className="w-full lg:w-[360px] flex-shrink-0 h-full overflow-y-auto pt-10 pt-4 pb-4 pr-4 pl-8 flex flex-col gap-6 transition-colors duration-300">
+    // 🟢 [เพิ่มความสามารถใน 태็กนอกสุด] 
+    // 1. ใส่ inline style ควบคุม width (360px หรือ 0px) และเปลี่ยนเป็นประเภทคอมพิวเตอร์จอใหญ่ผ่าน lg:style เพื่อให้หดเนียนๆ 
+    // 2. เติมคลาส `relative ease-in-out` เพื่อรองรับอนิเมชันตอนพับเก็บ และใส่ border-r ให้เห็นขอบเขตชัดเจน
+    <aside 
+      style={{ width: isSidebarOpen ? '' : '0px' }}
+      className={`${isSidebarOpen ? 'w-full lg:w-[360px] pr-4 pl-8' : 'w-0 p-0 overflow-hidden'} flex-shrink-0 h-full overflow-y-auto pt-10 pt-4 pb-4 flex flex-col gap-6 transition-all duration-300 ease-in-out border-r border-slate-200 dark:border-gray-800 relative`}
+    >
       
+      {/* 🟢 [เพิ่ม] ปุ่มเปิด-ปิด Sidebar ดีไซน์สไตล์พรีเมียม ลอยค้างกลางหน้าจอ (Fixed) ตลอดเวลา เลื่อนเมาส์ขึ้นลงก็ไม่หาย */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        style={{ left: isSidebarOpen ? '359px' : '0px' }} // คำนวณระยะพิกเซลดันปุ่มไปอยู่ขอบ Sidebar ตลอดเวลา
+        className={`fixed top-1/2 -translate-y-1/2 z-[9999] flex items-center justify-center w-7 h-16 rounded-r-xl shadow-2xl transition-all duration-300 ease-in-out cursor-pointer border border-l-0
+          ${isSidebarOpen 
+            ? 'bg-white dark:bg-[#1e293b] border-slate-200 dark:border-gray-700 text-slate-500 hover:text-blue-600 hover:w-8' 
+            : 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700 w-8'
+          }`}
+        title={isSidebarOpen ? "ซ่อนเมนู" : "แสดงเมนู"}
+      >
+        {isSidebarOpen ? (
+          <ChevronLeft size={18} />
+        ) : (
+          <ChevronRight size={18} />
+        )}
+      </button>
+
       {/* Menus */}
-      <div className="space-y-6">
+      {/* 🟢 [เพิ่มความสามารถในคลาสบรรทัดนี้] ควบคุมการซ่อนเนื้อหาภายในทั้งหมดทันทีเมื่อผู้ใช้กดปิด Sidebar */}
+      <div className={`space-y-6 transition-all duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div>
           <h3 className="text-xs font-bold text-gray-500 dark:text-white mb-2 px-3">Main Menu</h3>
           <nav className="space-y-1">

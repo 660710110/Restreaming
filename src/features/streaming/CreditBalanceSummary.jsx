@@ -39,8 +39,8 @@ const CreditBalanceSummary = ({ isDarkMode }) => {
     <div style={{ 
       // พื้นหลังกล่อง: โหมดมืดสีน้ำเงินเข้ม | โหมดสว่างสีขาว
       backgroundColor: isDarkMode ? '#1a1d26' : '#ffffff', 
-      borderRadius: '4px', 
-      marginBottom: '10px',
+      borderRadius: '6px', 
+      marginBottom: '15px',
       // เพิ่มเส้นขอบเล็กน้อยในโหมดสว่างเพื่อให้กล่องดูมีมิติ
       border: isDarkMode ? 'none' : '1px solid #e2e8f0',
       transition: 'all 0.3s ease', // สลับโหมดแบบนุ่มนวล

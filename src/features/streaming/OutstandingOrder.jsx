@@ -35,7 +35,8 @@ const OutstandingOrder = ({ isDarkMode }) => {
     <div style={{ 
       // พื้นหลังกล่องหลัก
       backgroundColor: isDarkMode ? '#131722' : '#ffffff', 
-      borderRadius: '4px', 
+      borderRadius: '6px', 
+      marginBottom: '15px', 
       overflow: 'hidden', 
       border: isDarkMode ? '1px solid #2a2e39' : '1px solid #e2e8f0',
       transition: 'all 0.3s ease' 

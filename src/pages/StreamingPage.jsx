@@ -12,6 +12,8 @@ import SetIndexPanel from '../features/streaming/SetIndexPanel';
 import SetIndexPanelMarket from '../features/streaming/SetIndexPanelMarket';
 import UserCard from '../features/streaming/UserCard';
 import PortfolioApp from '../features/streaming/PortfolioApp';
+import OrderTerminal from '../features/streaming/OrderTerminal';
+import BidsOffersTerminal from '../features/streaming/BidsOffersTerminal';
 
 const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
   const [activeTab, setActiveTab] = useState('Market');
@@ -149,7 +151,7 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
 
 
 
-      {/* ========== PORTFOLIO TAB ========== */}
+      {/* ========== PORTFOLIO TAB ==========  พี่เฟิร์นทำแล้ว*/}
       {activeTab === 'Portfolio' && (
       <main className="flex-1 flex flex-col p-3 lg:p-4 gap-3 overflow-hidden w-full max-w-[1920px] mx-auto h-[calc(100vh-52px)]">
 
@@ -159,9 +161,29 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
         </div>
 
 
-        {/* Top: Header Market Stats */}
+        {/* Main: Details */}
         <div className="flex-shrink-0">
           <PortfolioApp />
+        </div>
+        
+
+      </main>
+      )}
+
+
+      {/* ========== BIDS OFFERS TAB ========== */}
+      {activeTab === 'Bids Offers' && (
+      <main className="flex-1 flex flex-col p-3 lg:p-4 gap-3 overflow-hidden w-full max-w-[1920px] mx-auto h-[calc(100vh-52px)]">
+
+        {/* Top: Header Market Stats */}
+        <div className="flex-shrink-0">
+          <SetIndexPanel />
+        </div>
+
+
+        {/* Main row: Order Terminal */}
+        <div className="w-full flex-shrink-0">
+          <BidsOffersTerminal onGoToMarket={() => setActiveTab('Market')} />
         </div>
         
 
@@ -174,7 +196,7 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
 
 
       {/* ========== OTHER TABS (Coming Soon) ========== */}
-      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && (
+      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && activeTab !== 'Bids Offers' && (
         <div className="flex-1 flex items-center justify-center text-gray-500 flex-col gap-3">
           <span className="text-5xl">🚧</span>
           <p className="text-lg font-medium text-gray-400">{activeTab}</p>
