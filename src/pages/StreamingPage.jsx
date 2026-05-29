@@ -151,7 +151,7 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
 
 
 
-      {/* ========== PORTFOLIO TAB ==========  พี่เฟิร์นทำแล้ว*/}
+      {/* ========== PORTFOLIO TAB ==========  พี่เฟิร์นทำแล้ว */}
       {activeTab === 'Portfolio' && (
       <main className="flex-1 flex flex-col p-3 lg:p-4 gap-3 overflow-hidden w-full max-w-[1920px] mx-auto h-[calc(100vh-52px)]">
 
@@ -184,6 +184,11 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
         {/* Main row: Order Terminal */}
         <div className="w-full flex-shrink-0">
           <BidsOffersTerminal onGoToMarket={() => setActiveTab('Market')} />
+        </div>
+
+        {/* Main: Order Terminal ใช้ส่วนเดียวกับหน้า Portfolio อันล่างสุด */}
+        <div className="flex-shrink-0">
+          <OrderTerminal />
         </div>
         
 

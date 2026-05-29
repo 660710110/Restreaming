@@ -1,6 +1,6 @@
 // src/features/streaming/BidsOffersTerminal.jsx
 import React, { useState } from 'react';
-import { Trash2, ChevronDown } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 // 🆕 เปลี่ยนชื่อคอมโพเนนต์ใหม่เป็น BidsOffersTerminal เพื่อไม่ให้ซ้ำกับระบบอื่น
 // 🆕 เพิ่มเติมจุดที่ 1: เพิ่มพารามิเตอร์วัตถุรับ Props เข้ามาในวงเล็บฟังก์ชันคือ ({ onGoToMarket }) เพื่อรับฟังก์ชันเปลี่ยนหน้ามาจากไฟล์แม่ (StreamingPage.jsx)
@@ -20,16 +20,146 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
 
   // 🆕 เพิ่มเติมจุดที่ 3: จำลองชุดข้อมูลจำเพาะเจาะจง 9 หุ้นถอดดีไซน์ ตัวเลข วอลลุ่ม และสีสัน (เขียว/แดง/เหลือง) ออกมาจากภาพตัวอย่างกระดานสตรีมมิ่ง 100%
   // 🆕 ปรับปรุงจุดที่ 3.1: เปลี่ยนจากค่าคงที่ (const) มาเป็น State `stocksList` เพื่อให้ระบบ React สามารถประมวลผลตัดหรือลบรายชื่อหุ้นออกจากหน้าจอได้จริงแบบเรียลไทม์ 100%
+  // 🆕 ปรับปรุงเพิ่มเติม: แยกตัวแปร `bc` (Bid color) และ `oc` (Offer color) ออกจากกัน รวมถึงแก้ไขข้อมูลตัวเลขและสีสันให้ตรงกับรูปภาพ 100%
   const [stocksList, setStocksList] = useState([
-    { id: 0, name: 'A5-W4', price: '', change: '', high: 'High', low: 'Low', isUp: null, items: [{ v1: '0', b: '0.00', o: '0.01', v2: '7,497,900', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.02', v2: '6,149,800', c: 'text-emerald-500' }, { v1: '0', b: '0.00', o: '0.03', v2: '13,362,000', c: 'text-emerald-500' }] },
-    { id: 1, name: 'S11-F', price: '', change: '', high: 'High', low: 'Low', isUp: null, items: [{ v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }] },
-    { id: 2, name: 'HAIERS19', price: '8.55', change: '0.00(-0.00%)', high: '8.60', low: '8.55', isUp: 'yellow', items: [{ v1: '252', b: '8.55', o: '8.60', v2: '15,000', c: 'text-emerald-500' }, { v1: '34,863', b: '8.50', o: '6.65', v2: '22,587', c: 'text-red-500' }, { v1: '31,830', b: '8.45', o: '8.70', v2: '22,981', c: 'text-red-500' }] },
-    { id: 3, name: 'CATHAY41C26...', price: '0.23', change: '-0.23(-8.00%)', high: '0.23', low: '0.23', isUp: 'red', items: [{ v1: '0', b: '0.00', o: '5.00', v2: '5,000', c: 'text-emerald-500' }, { v1: '0', b: '0.00', o: '0.02', v2: '0', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.03', v2: '0', c: 'text-yellow-500' }] },
-    { id: 4, name: 'PACO-F', price: '', change: '', high: 'High', low: 'Low', isUp: null, items: [{ v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }, { v1: '0', b: '0.00', o: '0.00', v2: '0', c: 'text-yellow-500' }] },
-    { id: 5, name: 'GOM26', price: '4,515.9', change: '-55.4(-1.21%)', high: '4,577.0', low: '4,481.1', isUp: 'red', items: [{ v1: '1', b: '4,516.2', o: '4,517.1', v2: '4', c: 'text-red-500' }, { v1: '1', b: '4,516.1', o: '4,518.0', v2: '7', c: 'text-red-500' }, { v1: '5', b: '4,515.5', o: '4,518.3', v2: '7', c: 'text-red-500' }] },
-    { id: 6, name: 'BANPU', price: '5.80', change: '+0.15(+2.65%)', high: '5.80', low: '5.65', isUp: 'emerald', items: [{ v1: '3,427,300', b: '5.75', o: '5.80', v2: '3,235,700', c: 'text-emerald-500' }, { v1: '6,898,800', b: '5.70', o: '5.85', v2: '6,271,900', c: 'text-emerald-500' }, { v1: '5,930,700', b: '5.65', o: '5.90', v2: '4,291,700', c: 'text-emerald-500' }] },
-    { id: 7, name: 'PTT', price: '37.00', change: '+0.50(+1.37%)', high: '37.00', low: '36.25', isUp: 'emerald', items: [{ v1: '11,361,700', b: '36.75', o: '37.00', v2: '17,425,900', c: 'text-emerald-500' }, { v1: '15,267,600', b: '36.50', o: '37.25', v2: '16,303,200', c: 'text-yellow-500' }, { v1: '14,910,500', b: '36.25', o: '37.50', v2: '13,411,800', c: 'text-red-500' }] },
-    { id: 8, name: 'HANA', price: '34.50', change: '+5.00(+16.95%)', high: '35.50', low: '30.50', isUp: 'emerald', items: [{ v1: '28,000', b: '34.50', o: '34.75', v2: '2,367,500', c: 'text-emerald-500' }, { v1: '809,200', b: '34.25', o: '35.00', v2: '2,700,700', c: 'text-emerald-500' }, { v1: '722,800', b: '34.00', o: '35.25', v2: '1,922,500', c: 'text-yellow-500' }] }
+    { 
+      id: 0, 
+      name: 'A5-W4', 
+      price: '', 
+      change: '', 
+      high: 'High', 
+      low: 'Low', 
+      isUp: null, 
+      items: [
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.01', oc: 'text-yellow-500', v2: '7,497,900' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.02', oc: 'text-emerald-500', v2: '6,149,800' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.03', oc: 'text-emerald-500', v2: '13,362,000' }
+      ] 
+    },
+    { 
+      id: 1, 
+      name: 'S11-F', 
+      price: '', 
+      change: '', 
+      high: 'High', 
+      low: 'Low', 
+      isUp: null, 
+      items: [
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }
+      ] 
+    },
+    { 
+      id: 2, 
+      name: 'HAIERS19', 
+      price: '8.55', 
+      change: '0.00(-0.00%)', 
+      high: '8.60', 
+      highColor: 'text-emerald-500', // กำหนดสี High ตรงตามรูปภาพ
+      low: '8.55', 
+      lowColor: 'text-yellow-500',   // กำหนดสี Low ตรงตามรูปภาพ
+      isUp: 'yellow', 
+      items: [
+        { v1: '252', b: '8.55', bc: 'text-yellow-500', o: '8.60', oc: 'text-emerald-500', v2: '15,000' }, 
+        { v1: '34,863', b: '8.50', bc: 'text-red-500', o: '8.65', oc: 'text-emerald-500', v2: '22,587' }, // แก้ไขจาก 6.65 เป็น 8.65 และใส่สีเขียวตามรูป
+        { v1: '31,830', b: '8.45', bc: 'text-red-500', o: '8.70', oc: 'text-emerald-500', v2: '22,981' }  // ใส่สีเขียวตามรูป
+      ] 
+    },
+    { 
+      id: 3, 
+      name: 'CATHAY41C26...', 
+      price: '0.23', 
+      change: '-0.02(-8.00%)', // แก้ไขจาก -0.23 เป็น -0.02
+      high: '0.23', 
+      highColor: 'text-red-500',
+      low: '0.23', 
+      lowColor: 'text-red-500',
+      isUp: 'red', 
+      items: [
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '5.00', oc: 'text-emerald-500', v2: '5,000' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.02', oc: 'text-yellow-500', v2: '0' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.03', oc: 'text-yellow-500', v2: '0' }
+      ] 
+    },
+    { 
+      id: 4, 
+      name: 'PACO-F', 
+      price: '', 
+      change: '', 
+      high: 'High', 
+      low: 'Low', 
+      isUp: null, 
+      items: [
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }, 
+        { v1: '0', b: '0.00', bc: 'text-yellow-500', o: '0.00', oc: 'text-yellow-500', v2: '0' }
+      ] 
+    },
+    { 
+      id: 5, 
+      name: 'GOM26', 
+      price: '4,515.9', 
+      change: '-55.4(-1.21%)', 
+      high: '4,577.0', 
+      highColor: 'text-emerald-500',
+      low: '4,481.1', 
+      lowColor: 'text-red-500',
+      isUp: 'red', 
+      items: [
+        { v1: '1', b: '4,516.2', bc: 'text-red-500', o: '4,517.1', oc: 'text-red-500', v2: '4' }, 
+        { v1: '1', b: '4,516.1', bc: 'text-red-500', o: '4,518.0', oc: 'text-red-500', v2: '7' }, 
+        { v1: '5', b: '4,515.5', bc: 'text-red-500', o: '4,518.3', oc: 'text-red-500', v2: '7' }
+      ] 
+    },
+    { 
+      id: 6, 
+      name: 'BANPU', 
+      price: '5.80', 
+      change: '+0.15(+2.65%)', 
+      high: '5.80', 
+      highColor: 'text-emerald-500',
+      low: '5.65', 
+      lowColor: 'text-yellow-500',
+      isUp: 'emerald', 
+      items: [
+        { v1: '3,427,300', b: '5.75', bc: 'text-emerald-500', o: '5.80', oc: 'text-emerald-500', v2: '3,235,700' }, 
+        { v1: '6,898,800', b: '5.70', bc: 'text-emerald-500', o: '5.85', oc: 'text-emerald-500', v2: '6,271,900' }, 
+        { v1: '5,930,700', b: '5.65', bc: 'text-emerald-500', o: '5.90', oc: 'text-emerald-500', v2: '4,291,700' }
+      ] 
+    },
+    { 
+      id: 7, 
+      name: 'PTT', 
+      price: '37.00', 
+      change: '+0.50(+1.37%)', 
+      high: '37.00', 
+      highColor: 'text-emerald-500',
+      low: '36.25', 
+      lowColor: 'text-red-500',
+      isUp: 'emerald', 
+      items: [
+        { v1: '11,361,700', b: '36.75', bc: 'text-emerald-500', o: '37.00', oc: 'text-emerald-500', v2: '17,425,900' }, 
+        { v1: '15,267,600', b: '36.50', bc: 'text-yellow-500', o: '37.25', oc: 'text-yellow-500', v2: '16,303,200' }, 
+        { v1: '14,910,500', b: '36.25', bc: 'text-red-500', o: '37.50', oc: 'text-red-500', v2: '13,411,800' }
+      ] 
+    },
+    { 
+      id: 8, 
+      name: 'HANA', 
+      price: '34.50', 
+      change: '+5.00(+16.95%)', 
+      high: '35.00', // แก้ไขจาก 35.50 เป็น 35.00
+      highColor: 'text-emerald-500',
+      low: '30.50', 
+      lowColor: 'text-red-500',
+      isUp: 'emerald', 
+      items: [
+        { v1: '28,000', b: '34.50', bc: 'text-emerald-500', o: '34.75', oc: 'text-emerald-500', v2: '2,367,500' }, 
+        { v1: '809,200', b: '34.25', bc: 'text-emerald-500', o: '35.00', oc: 'text-emerald-500', v2: '2,700,700' }, 
+        { v1: '722,800', b: '34.00', bc: 'text-emerald-500', o: '35.25', oc: 'text-yellow-500', v2: '1,922,500' }
+      ] 
+    }
   ]);
 
   // 🆕 เพิ่มเติมจุดที่ 6: สร้างกลุ่ม State สำหรับควบคุมระบบ Delete Mode และการจัดเก็บข้อมูลการกดเลือก Checkbox
@@ -78,7 +208,8 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
     >
       
       {/* ================== TOP CONTROL BAR ================== */}
-      <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-4 border-b border-gray-800/40" onClick={(e) => e.stopPropagation()}>
+      {/* 🆕 ปรับปรุงสีขอบบาร์บน ให้ใช้สีฟ้าน้ำเงินสตีลตามต้นฉบับรูปภาพ */}
+      <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-4 border-b border-[#1b3152]/40" onClick={(e) => e.stopPropagation()}>
         
         {/* กลุ่มปุ่มฝั่งซ้าย: สลับแท็บ Favourite (ใช้งานกดเปลี่ยนหน้าได้จริง) */}
         <div className="flex flex-wrap items-center gap-[3px]">
@@ -91,7 +222,7 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
                 className={`px-3 py-1.5 text-[11px] md:text-[12px] font-normal rounded-[3px] border transition-all duration-150 whitespace-nowrap
                   ${isActive 
                     ? 'bg-[#162a45] text-blue-400 border-blue-500/80 shadow-[0_0_8px_rgba(59,130,246,0.2)]' 
-                    : 'bg-[#0f172a]/40 text-gray-400 border-gray-800 hover:text-gray-200 hover:bg-[#0f172a]/80'
+                    : 'bg-[#0c1322] text-gray-400 border-[#1b3152]/40 hover:text-gray-200 hover:bg-[#0f172a]/80'
                   }`}
               >
                 {tab}
@@ -126,21 +257,22 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
                 e.stopPropagation();
                 toggleEditMode(); // สลับไปเปิดโหมดติ๊กเลือก Checkbox ทันทีเมื่อกดไอคอนถังขยะปกติ
               }}
-              className="p-2 bg-[#0f172a]/60 text-gray-400 border border-gray-800 rounded-[4px] hover:text-red-400 hover:bg-red-950/20 hover:border-red-900/50 transition-colors"
+              className="p-2 bg-[#0f172a] text-blue-500 border border-[#1e3a8a]/60 rounded-[4px] hover:text-red-400 hover:bg-red-950/20 hover:border-red-900/50 transition-colors"
               title="Clear List"
             >
-              <Trash2 size={15} />
+              <Trash2 size={16} />
             </button>
           )}
 
           {/* ปุ่ม Dropdown 3 Bids (เปิด-ปิด และสลับค่าได้จริง) */}
           <div className="relative">
+            {/* 🆕 ปรับปรุงเพิ่มเติม: ปรับกรอบและไอคอนสามเหลี่ยมทึบ '▼' ให้มีขอบฟ้าน้ำเงินสตีล `#1b3152/80` ให้ตรงตามตัวอย่าง */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center justify-between gap-2 px-3 py-1.5 bg-[#0f172a]/60 border border-gray-800 rounded-[4px] text-[12px] text-gray-300 hover:border-gray-700 min-w-[85px] transition-colors"
+              className="flex items-center justify-between gap-2 px-3 py-1.5 bg-[#0f172a] border border-[#1e3a8a]/60 rounded-[4px] text-[12px] text-gray-300 hover:border-gray-700 min-w-[85px] transition-colors"
             >
               <span>{bidsDropdown}</span>
-              <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              <span className="text-[8px] text-gray-500 ml-1">▼</span>
             </button>
 
             {isDropdownOpen && (
@@ -167,52 +299,76 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
       {/* ================== DYNAMIC CONTENT AREA ================== */}
       {/* 🆕 เพิ่มเติมจุดที่ 4: ทำการฝังเงื่อนไข (Conditional Rendering) เพื่อให้เมื่อผู้ใช้เลือกกดแท็บ "Favourite 1" ระบบจะเปิดแผงหน้าจอ Grid กระดานหุ้นจำลอง 9 ใบเสมือนจริงขึ้นมาทันที ส่วนแท็บอื่นๆ จะยังคงรักษาบล็อกแจ้งเตือนเดิมไว้ตามคำสั่งห้ามแก้ไขโครงสร้างครับ */}
       {activeTab === 'Favourite 1' ? (
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-2" onClick={(e) => e.stopPropagation()}>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 mt-1.5" onClick={(e) => e.stopPropagation()}>
           {stocksList.map((stock, idx) => {
             // ค้นหาสีของหัวข้อชื่อหุ้นและสถิติหลักตามความผันผวน
             const headColor = stock.isUp === 'emerald' ? 'text-emerald-500' : stock.isUp === 'red' ? 'text-red-500' : stock.isUp === 'yellow' ? 'text-yellow-500' : 'text-white';
             const isChecked = selectedStockIds.includes(stock.id);
 
             return (
-              <div key={stock.id} className={`bg-[#090e19] border rounded-[6px] p-3 flex flex-col font-sans transition-all position-relative ${isEditMode ? 'border-red-900/40 bg-[#0c0f17]' : 'border-gray-800/80 hover:border-gray-700'}`}>
+              // 🆕 ปรับปรุงเพิ่มเติม: ปรับกรอบของกล่องการ์ดหุ้นให้เป็นสีฟ้าน้ำเงินสตีล `#1b3152/60` เพื่อความสวยงามกลมกลืนตามตัวอย่าง 100%
+              <div 
+                key={stock.id} 
+                className={`bg-[#090e19] border rounded-[6px] p-2.5 flex flex-col font-sans transition-all position-relative 
+                  ${isEditMode 
+                    ? isChecked 
+                      ? 'border-red-500 bg-[#1c0808]/30 shadow-[0_0_10px_rgba(239,68,68,0.1)]' // 🔴 ถ้าอยู่ในโหมดลบ + ถูกเลือก -> กรอบแดง + พื้นหลังอมแดงจางๆ
+                      : 'border-red-900/40 bg-[#0c0f17]'                                    // ⚪ ถ้าอยู่ในโหมดลบ + ยังไม่ได้เลือก -> กรอบแดงมืดปกติ
+                    : 'border-[#1b3152]/60 hover:border-blue-900/80'                        // 🔵 โหมดปกติ (ไม่ได้เปิดถังขยะ) -> กรอบสีน้ำเงินสตีล
+                  }`}
+              >
                 
-                {/* แผงหัวกระดานข้อมูลหุ้นรายตัว */}
+                {/* 🆕 ปรับปรุงโครงสร้างหัวกระดานข้อมูลหุ้น (Card Header): ขยับระยะห่างระว่างราคากับ High/Low ออกมาเล็กน้อยด้วย gap-3 เพื่อช่องไฟที่สมบูรณ์และสบายตากว่าเดิม */}
                 <div className="flex justify-between items-start mb-2">
-                  {/* 🆕 เพิ่มเติมจุดที่ 12: เพิ่มระบบ Checkbox จำลองขนาดและโทนสีน้ำเงินครามตรงตามรูปภาพโมเดลใบที่สองแบบเด็ดขาด โดยจะเปิดเผยตัวตนออกมาเมื่อสเตท `isEditMode` ทำงานเท่านั้น */}
-                  <div className="flex items-center gap-3">
+                  
+                  {/* ส่วนฝั่งซ้าย: Checkbox และชื่อหุ้น (ใต้ชื่อจะโล่งสะอาดตา ไม่มีราคามาทับใต้ชื่อ) */}
+                  <div className="flex items-center gap-2">
                     {isEditMode && (
                       <input 
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => handleSelectStock(stock.id)}
-                        className="w-[16px] h-[16px] accent-blue-600 rounded-[3px] border-gray-700 bg-slate-900 cursor-pointer"
+                        className="w-[16px] h-[16px] appearance-none border border-gray-500 rounded-[3px] bg-transparent checked:bg-blue-600 checked:border-blue-600 cursor-pointer relative after:content-['✓'] after:absolute after:text-[10px] after:font-bold after:text-white after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:hidden checked:after:block animate-none"
                       />
                     )}
-                    <div>
-                      <h3 className={`text-[15px] font-semibold tracking-wide ${headColor}`}>{stock.name}</h3>
-                      {stock.price && (
-                        <div className="flex items-baseline gap-2 mt-0.5">
-                          <span className={`text-[14px] font-bold ${headColor}`}>{stock.price}</span>
-                          <span className={`text-[10px] font-medium ${headColor}`}>{stock.change}</span>
-                        </div>
-                      )}
-                    </div>
+                    <h3 className={`text-[15px] font-semibold tracking-wide ${headColor}`}>{stock.name}</h3>
                   </div>
-                  <div className="text-right text-[10px] text-gray-500 space-y-0.5">
-                    <div className="flex justify-end gap-2"><span>High</span><span className={stock.price ? 'text-emerald-500' : 'text-gray-400'}>{stock.high}</span></div>
-                    <div className="flex justify-end gap-2"><span>Low</span><span className={stock.price ? 'text-yellow-500' : 'text-gray-400'}>{stock.low}</span></div>
+
+                  {/* ส่วนฝั่งขวา: แสดงราคาปัจจุบันคู่กับ High และการเปลี่ยนแปลงคู่กับ Low ในระดับเดียวกันแบบแนบชิดพอดี (ใช้ gap-3) */}
+                  <div className="flex items-start gap-3">
+                    {/* แสดงราคาและการเปลี่ยนแปลงฝั่งซ้ายของกลุ่มข้อมูลขวา */}
+                    {stock.price && (
+                      <div className="text-right">
+                        <div className={`text-[14px] font-bold leading-none mb-1 ${headColor}`}>{stock.price}</div>
+                        <div className={`text-[10px] font-medium leading-none ${headColor}`}>{stock.change}</div>
+                      </div>
+                    )}
+                    
+                    {/* แสดง High/Low ฝั่งขวาสุด (ลบ min-w-[70px] เพื่อขยับราคามาแนบกับ High/Low ขึ้นอย่างสมดุล) */}
+                    <div className="text-right text-[10px] text-gray-500 space-y-0.5">
+                      <div className="flex justify-end gap-1.5">
+                        <span>High</span>
+                        {stock.price && <span className={stock.highColor || 'text-emerald-500'}>{stock.high}</span>}
+                      </div>
+                      <div className="flex justify-end gap-1.5">
+                        <span>Low</span>
+                        {stock.price && <span className={stock.lowColor || 'text-yellow-500'}>{stock.low}</span>}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* แถบชุดคำสั่งสลับโหมด Bids / Tickers ภายในตัวการ์ด (สามารถใช้งานสลับค่าได้จริงทุกช่อง) */}
+                {/* 🆕 ปรับปรุงเพิ่มเติม: ปรับเส้นขอบบาร์ตารางให้ใช้เส้นบางสีน้ำเงินสตีล `#1b3152/60` ครอบคลุมทั้งแถบ */}
                 <div className="w-full grid grid-cols-5 bg-[#0b1322] border border-gray-800/60 rounded-[4px] mb-1.5 relative overflow-visible">
                   <div className="col-span-1 relative border-r border-gray-800/60">
+                    {/* 🆕 ปรับปรุงเพิ่มเติม: ปรับปุ่ม Bids/Tickers ภายในตารางให้ใช้พื้นหลังสีน้ำเงินเข้มและไอคอน '▼' เพื่อความตรงตามต้นฉบับ */}
                     <button
                       onClick={() => setCardDropdownOpen(prev => ({ ...prev, [idx]: !prev[idx] }))}
                       className="w-full flex items-center justify-between px-1.5 py-1 text-[10px] bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 transition-colors rounded-l-[4px]"
                     >
                       <span>{cardModes[idx]}</span>
-                      <ChevronDown size={10} />
+                      <span className="text-[6px] ml-0.5">▼</span>
                     </button>
                     {cardDropdownOpen[idx] && (
                       <div className="absolute left-0 mt-0.5 w-20 bg-[#0f172a] border border-gray-800 rounded-[3px] shadow-2xl z-40 overflow-hidden">
@@ -235,17 +391,17 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
                   {/* 🆕 เพิ่มเติมจุดที่ 15: ตรวจสอบเงื่อนไข `cardModes[idx]` ของการ์ดใบนี้ หากเลือกโหมด 'Tickers' จะสลับหัวตารางและเนื้อหาด้านในให้กลายเป็นรูปแบบกระดาน Tickers เรียลไทม์ทั้งหมด */}
                   {cardModes[idx] === 'Tickers' ? (
                     <>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Time</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Side</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Price</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500">Volume</div>
+                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Time</div>
+                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Side</div>
+                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Price</div>
+                      <div className="col-span-1 text-right pr-1.5 py-1 text-[10px] text-gray-500">Volume</div>
                     </>
                   ) : (
                     <>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Volume</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Bids</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-gray-800/60">Offers</div>
-                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500">Volume</div>
+                      <div className="col-span-1 text-right pr-1.5 py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Volume</div>
+                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Bids</div>
+                      <div className="col-span-1 text-center py-1 text-[10px] text-gray-500 border-r border-[#1b3152]/60">Offers</div>
+                      <div className="col-span-1 text-right pr-1.5 py-1 text-[10px] text-gray-500">Volume</div>
                     </>
                   )}
                 </div>
@@ -258,55 +414,66 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
                       // การ์ดที่มีข้อมูลการซื้อขายจริง (เช่น HAIERS19, BANPU, PTT, HANA) จะจำลองการสตรีมประวัติ Ticker 3 แถวล่าสุด
                       <>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 hover:bg-gray-800/20 transition-colors">
-                          <div className="col-span-1 text-left pl-1 text-gray-500">14:52:10</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center text-gray-500">14:52:10</div>
                           <div className="col-span-1 text-center text-emerald-500 font-bold">B</div>
                           <div className="col-span-1 text-center text-emerald-500">{stock.price}</div>
-                          <div className="col-span-2 text-right pr-1 text-emerald-400">2,500</div>
+                          <div className="col-span-1 text-right pr-1 text-emerald-400">2,500</div>
                         </div>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 hover:bg-gray-800/20 transition-colors">
-                          <div className="col-span-1 text-left pl-1 text-gray-500">14:51:45</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center text-gray-500">14:51:45</div>
                           <div className="col-span-1 text-center text-red-500 font-bold">S</div>
                           <div className="col-span-1 text-center text-red-500">{(parseFloat(stock.price.replace(/,/g, '')) - 0.05).toFixed(2)}</div>
-                          <div className="col-span-2 text-right pr-1 text-red-400">10,800</div>
+                          <div className="col-span-1 text-right pr-1 text-red-400">10,800</div>
                         </div>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 hover:bg-gray-800/20 transition-colors">
-                          <div className="col-span-1 text-left pl-1 text-gray-500">14:51:02</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center text-gray-500">14:51:02</div>
                           <div className="col-span-1 text-center text-emerald-500 font-bold">B</div>
                           <div className="col-span-1 text-center text-emerald-500">{stock.price}</div>
-                          <div className="col-span-2 text-right pr-1 text-emerald-400">15,000</div>
+                          <div className="col-span-1 text-right pr-1 text-emerald-400">15,000</div>
                         </div>
                       </>
                     ) : (
                       // การ์ดที่ไม่มีราคาล่าสุด (เช่น หุ้นที่ไม่มีการซื้อขาย A5-W4, S11-F, PACO-F) จะแสดงแถวว่าง/ขีด เพื่อคงความสวยงามสม่ำเสมอ
                       <>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 text-gray-600">
-                          <div className="col-span-1 text-left pl-1">-</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">0.00</div>
-                          <div className="col-span-2 text-right pr-1">0</div>
+                          <div className="col-span-1 text-right pr-1">0</div>
                         </div>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 text-gray-600">
-                          <div className="col-span-1 text-left pl-1">-</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">0.00</div>
-                          <div className="col-span-2 text-right pr-1">0</div>
+                          <div className="col-span-1 text-right pr-1">0</div>
                         </div>
                         <div className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 text-gray-600">
-                          <div className="col-span-1 text-left pl-1">-</div>
+                          <div className="col-span-1"></div>
+                          <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">-</div>
                           <div className="col-span-1 text-center">0.00</div>
-                          <div className="col-span-2 text-right pr-1">0</div>
+                          <div className="col-span-1 text-right pr-1">0</div>
                         </div>
                       </>
                     )
                   ) : (
-                    // หากไม่ได้เป็นโหมด Tickers (คือโหมด Bids ปกติ) ให้รันโค้ดชุดเดิมของคุณทำงาน 100%
+                    // หากไม่ได้เป็นโหมด Tickers (คือโหมด Bids ปกติ)
                     stock.items.map((item, i) => (
                       <div key={i} className="w-full grid grid-cols-5 text-[11px] font-mono py-0.5 hover:bg-gray-800/20 transition-colors">
-                        <div className="col-span-1 text-left pl-1 text-yellow-500/90">{item.v1}</div>
-                        <div className="col-span-1 text-center text-gray-400">0.00</div>
-                        <div className="col-span-1 text-center text-gray-400">{item.b}</div>
-                        <div className={`col-span-1 text-center ${item.c}`}>{item.o}</div>
+                        {/* 🆕 เพิ่มเติม/ปรับปรุง: ใส่ div เปล่าเป็นคอลัมน์แรกสุด เพื่อเว้นว่างใต้ปุ่ม Dropdown Bids หลีกเลี่ยงข้อมูลเยื้อง */}
+                        <div className="col-span-1"></div>
+                        {/* 🆕 ปรับปรุง: แสดง Volume ฝั่งซื้อ (item.v1) โดยชิดขวา (text-right) ตรงตามรูปแบบสากลในรูปภาพ */}
+                        <div className="col-span-1 text-right pr-1 text-yellow-500/90">{item.v1}</div>
+                        {/* 🆕 ปรับปรุง: แสดงราคา Bids (item.b) และใช้สีตามสถานะ item.bc เพื่อแยกสี Bid/Offer ในแต่ละบรรทัดให้ตรงรูป 100% */}
+                        <div className={`col-span-1 text-center ${item.bc}`}>{item.b}</div>
+                        {/* 🆕 ปรับปรุง: แสดงราคา Offers (item.o) และใช้สีตามสถานะ item.oc เพื่อแยกสี Bid/Offer ในแต่ละบรรทัดให้ตรงรูป 100% */}
+                        <div className={`col-span-1 text-center ${item.oc}`}>{item.o}</div>
+                        {/* 🆕 ปรับปรุง: แสดง Volume ฝั่งขาย (item.v2) ในคอลัมน์ที่ 5 ใต้หัวข้อ Volume ฝั่งขวา */}
                         <div className="col-span-1 text-right pr-1 text-yellow-500/90">{item.v2}</div>
                       </div>
                     ))
@@ -336,7 +503,7 @@ const BidsOffersTerminal = ({ onGoToMarket }) => {
         <div className="flex-1 flex items-center justify-center py-12 px-4">
           
           {/* บล็อกกรอบสี่เหลี่ยมหน้าตากลางเว็บบนรูปเป๊ะๆ */}
-          <div className="w-full max-w-[720px] bg-[#0c1322] border border-[#16263f] rounded-[8px] p-8 md:p-12 text-center shadow-lg transition-all duration-300">
+          <div className="w-full max-w-[720px] bg-[#0c1322] border border-gray-200 dark:border-[#1e3a8a] rounded-[8px] p-8 md:p-12 text-center shadow-lg transition-all duration-300">
             
             <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide mb-3">
               No Favourite items to display
