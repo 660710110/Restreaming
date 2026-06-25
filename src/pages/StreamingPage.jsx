@@ -14,6 +14,7 @@ import UserCard from '../features/streaming/UserCard';
 import PortfolioApp from '../features/streaming/PortfolioApp';
 import OrderTerminal from '../features/streaming/OrderTerminal';
 import BidsOffersTerminal from '../features/streaming/BidsOffersTerminal';
+import TickerTerminal from '../features/streaming/TickerTerminal';
 
 const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
   const [activeTab, setActiveTab] = useState('Market');
@@ -197,11 +198,37 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
 
 
 
+      {/* ========== TICKER TAB ========== */}
+      {activeTab === 'Ticker' && (
+      <main className="flex-1 flex flex-col p-3 lg:p-4 gap-3 overflow-hidden w-full max-w-[1920px] mx-auto h-[calc(100vh-52px)]">
+
+        {/* Top: Header Market Stats */}
+        <div className="flex-shrink-0">
+          <SetIndexPanel />
+        </div>
+
+
+        {/* Main row: Order Terminal */}
+        <div className="h-[45%] bg-[#0a1628] border border-[#1a3050] rounded flex flex-col overflow-hidden">
+          <TickerTerminal onGoToMarket={() => setActiveTab('Market')} />
+        </div>
+
+        {/* Main: Order Terminal ใช้ส่วนเดียวกับหน้า Portfolio อันล่างสุด */}
+        <div className="flex-shrink-0">
+          <OrderTerminal />
+        </div>
+        
+
+      </main>
+      )}
+
+
+
 
 
 
       {/* ========== OTHER TABS (Coming Soon) ========== */}
-      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && activeTab !== 'Bids Offers' && (
+      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && activeTab !== 'Bids Offers' && activeTab !== 'Ticker' && (
         <div className="flex-1 flex items-center justify-center text-gray-500 flex-col gap-3">
           <span className="text-5xl">🚧</span>
           <p className="text-lg font-medium text-gray-400">{activeTab}</p>
