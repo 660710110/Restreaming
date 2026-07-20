@@ -15,6 +15,14 @@ import PortfolioApp from '../features/streaming/PortfolioApp';
 import OrderTerminal from '../features/streaming/OrderTerminal';
 import BidsOffersTerminal from '../features/streaming/BidsOffersTerminal';
 import TickerTerminal from '../features/streaming/TickerTerminal';
+import ActiveStockSummary from '../features/streaming/ActiveStockSummary';
+import LiveExecutionTrades from '../features/streaming/LiveExecutionTrades';
+import MarketStockList from '../features/streaming/MarketStockList';
+import StreamingOrderPanel from '../features/streaming/StreamingOrderPanel';
+import TechnicalCandleChart from '../features/streaming/TechnicalCandleChart';
+import WatchlistFavorites from '../features/streaming/WatchlistFavorites';
+
+
 
 const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
   const [activeTab, setActiveTab] = useState('Market');
@@ -224,11 +232,63 @@ const StreamingPage = ({ isDarkMode, setIsDarkMode, onLogout }) => {
 
 
 
+{/* ========== TFEX TAB ========== */}
+      {activeTab === 'TFEX' && (
+      <main className="flex-1 flex flex-col p-3 lg:p-4 gap-3 overflow-hidden w-full max-w-[1920px] mx-auto h-[calc(100vh-52px)]">
+
+        {/* Top: Header Market Stats */}
+        <div className="flex-shrink-0">
+          <SetIndexPanel />
+        </div>
+
+        {/* //อธิบายกำกับ: เพิ่มโครงสร้าง Layout 3 คอลัมน์ (ซ้าย, กลาง, ขวา) ต่อท้ายจาก SetIndexPanel */}
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 overflow-hidden min-h-0">
+
+          {/* //อธิบายกำกับ: คอลัมน์ที่ 1 (ฝั่งซ้าย) - ใส่ MarketStockList สำหรับแสดงตารางรายชื่อหุ้นและการจัดอันดับ */}
+          <div className="w-full lg:w-[28%] flex-shrink-0 flex flex-col overflow-hidden">
+            <MarketStockList onSelectStock={setSelectedStock} />
+          </div>
+
+          {/* //อธิบายกำกับ: คอลัมน์ที่ 2 (ตรงกลาง) - ประกอบด้วยแผงสรุปข้อมูลราคารายวันด้านบน และกราฟแท่งเทียนด้านล่าง */}
+          <div className="flex-1 flex flex-col gap-4 overflow-hidden min-w-[400px]">
+            {/* ส่วนสรุปข้อมูลราคาตัวเลขของหุ้นที่ระบุไว้ */}
+            <div className="flex-shrink-0">
+              <ActiveStockSummary stock={selectedStock} />
+            </div>
+            {/* พื้นที่สำหรับใส่กราฟเทคนิคแท่งเทียน (Technical Candle Chart) */}
+            <div className="flex-1 bg-[#101c2c] border border-[#193254] rounded-[8px] overflow-hidden">
+              <TechnicalCandleChart stock={selectedStock} />
+            </div>
+          </div>
+
+          {/* //อธิบายกำกับ: คอลัมน์ที่ 3 (ฝั่งขวา) - ประกอบด้วยรายการหุ้นโปรด และ ฟีดกระดานบันทึกประวัติการจับคู่คำสั่งซื้อขายสด */}
+          <div className="w-[320px] xl:w-[350px] flex-shrink-0 flex flex-col gap-4 h-full">
+            {/* รายการหุ้นโปรดเฝ้ามอง (Watchlist Favorites) */}
+            <div className="flex flex-col flex-shrink-0" style={{ height: '42%' }}>
+              <WatchlistFavorites onSelectStock={setSelectedStock} />
+            </div>
+            {/* รายการแสดงผลบันทึกการซื้อขายสดเรียบไทม์ (Live Execution Trades) */}
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <LiveExecutionTrades />
+            </div>
+          </div>
+
+        </div>
+
+        {/* //อธิบายกำกับ: เพิ่มส่วนแผงกรอกข้อมูลสั่งซื้อขายล่างสุด (StreamingOrderPanel) เพื่อปิดท้าย Layout หน้าจอตามรูปภาพ */}
+        <div className="w-full flex-shrink-0">
+          <StreamingOrderPanel selectedStock={selectedStock} />
+        </div>
+        {/* //อธิบายกำกับ: สิ้นสุดการเพิ่มส่วนประกอบหน้าจอในแท็บ TFEX */}
+
+      </main>
+      )}
+
 
 
 
       {/* ========== OTHER TABS (Coming Soon) ========== */}
-      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && activeTab !== 'Bids Offers' && activeTab !== 'Ticker' && (
+      {activeTab !== 'Market' && activeTab !== 'Technical' && activeTab !== 'Portfolio' && activeTab !== 'Bids Offers' && activeTab !== 'Ticker' && activeTab !== 'TFEX' &&(
         <div className="flex-1 flex items-center justify-center text-gray-500 flex-col gap-3">
           <span className="text-5xl">🚧</span>
           <p className="text-lg font-medium text-gray-400">{activeTab}</p>
